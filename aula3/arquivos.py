@@ -38,5 +38,4 @@ def ex_1():
 
 def run():
     ex_1()
-
-run()
+    
