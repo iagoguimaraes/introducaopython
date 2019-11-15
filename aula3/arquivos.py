@@ -94,5 +94,4 @@ def ex_2():
 
 def run():
     ex_1()
-    
-ex_2()
+    ex_2()
