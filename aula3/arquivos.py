@@ -36,6 +36,17 @@ def ex_1():
         linha_ip_invalido = str(invalidos)
         resultado.write(linha_ip_invalido)
 
+    lista_ips.close()
+    resultado.close()
+
+def converte_bytes(valor_em_bytes):
+    #converte bytes em megabytes
+    return valor_em_bytes / 1000000
+
+def calcula_percentual(valor_inferior, valor_total):
+    #calcula porcentagem do valor passado em relacao ao valor total tambem passado
+    return ((100 * valor_inferior) / valor_total)
+
 def ex_2():
     usuarios = open('aula3/resources/usuarios.txt', 'r')
     relatorio = open('aula3/output/relatorio.txt', 'w')
@@ -47,8 +58,10 @@ def ex_2():
 
     #preenche os vetores
     for dados_usuario in usuarios:
-        nome_usuario = str(dados_usuario).split(' ')[0]
-        tamanho_dir = str(dados_usuario).split(' ')[1].replace('\n', '')
+        #nome_usuario = str(dados_usuario).split(' ')[0]
+        nome_usuario = str(dados_usuario)[0:15]
+        #tamanho_dir = str(dados_usuario).split(' ')[1].replace('\n', '')
+        tamanho_dir = str(dados_usuario)[15:].replace('\n', '')
         
         cont_usuarios = cont_usuarios + 1
 
@@ -59,16 +72,24 @@ def ex_2():
         tamanho_total = tamanho_total + int(tamanhos[2])
 
     #printa o relatorio
-    print('ACME Inc. Uso do espaço em disco pelos usuários')
-    print('---------------------------------------------------------')
-    print('Nr.  Usuário Espaço Utilizado    % do uso')
+    relatorio.write('ACME Inc.\t\t\tUso do espaço em disco pelos usuários\n')
+    relatorio.write('---------------------------------------------------------\n')
+    relatorio.write('Nr.\t\tUsuário\t\t\tEspaço Utilizado\t\t% do uso\n')
     
     for usr in vet_dados_usuario:
 
-        tamanho_mb = int(usr[2]) / 1000000
-        porcent_tamanho = ((100 * int(usr[2])) / tamanho_total)
+        tamanho_mb = converte_bytes(int(usr[2]))
+        porcent_tamanho = calcula_percentual(int(usr[2]), tamanho_total)
     
-        print('{0}  {1} {2:.2f} MB  {3:.2f}%'.format(usr[0], usr[1], tamanho_mb, porcent_tamanho).replace('.', ','))
+        relatorio.write('{0}\t\t{1}\t{2:.2f} MB\t\t\t\t{3:.2f}%\n'.format(usr[0], usr[1], tamanho_mb, porcent_tamanho).replace('.', ','))
+    
+
+    relatorio.write('\n')
+    relatorio.write('Espaço total ocupado: {:.2f} MB\n'.format(converte_bytes(tamanho_total)).replace('.', ','))
+    relatorio.write('Espaço médio ocupado: {:.2f} MB'.format((converte_bytes(tamanho_total)) / len(vet_dados_usuario)).replace('.', ','))
+
+    usuarios.close()
+    relatorio.close()
 
 
 def run():
