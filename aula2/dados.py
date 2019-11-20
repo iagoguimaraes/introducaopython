@@ -77,6 +77,6 @@ def run():
     #ex_1()
     ex_2(input('Digite seu nome: '))
     ex_3()
-    #ex_4(input('Digite 10 caracteres separados por um espaco: '))
+    ex_4(input('Digite 10 caracteres separados por um espaco: '))
     #ex_5(input('Digite 20 números inteiros: '))
     ex_6(input('Digite a sua data de nascimento (DD/MM/AAAA): '))
